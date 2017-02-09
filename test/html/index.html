@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Rainbow component example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="format-detection" content="email=no" />
+	<script>
+		var _hip = [
+      ['_setPageId', 1]
+    ];
+	</script>
+</head>
+<body >
+	<app :showcalendar="showCalendar"
+		:hotdayslist="hotDaysList"
+		:maxscheduledatenumber="maxScheduleDateNumber"
+		:initcheckintext="checkInText"
+		:initcheckouttext="checkOutText"
+		:maxdays="maxDays"
+		:pagetitle="pageTitle"
+		@hidecalendar="hideCalendarFun"></app>
+	<button class="click-btn" :style="{'font-size':'15px','padding':'10px','border':'solid 1px black','margin':'20px'}" @click="showCalendarFun">弹出日历{{checkInText}}至{{checkOutText}}</button>
+	<script src="./build.js"></script>
+</body>
+</html>

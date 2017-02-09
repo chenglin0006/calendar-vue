@@ -1,0 +1,11 @@
+{
+    "scripts": {
+      "build": "gulp webpack",
+      "postpublish": "npm publish; gulp register",
+      "postbuild":"gulp version"
+    },
+    "dist": "./test/dist",
+    "output": "./test/html",
+    "urlPrefix": "./test/dist/",
+    "env": "alpha"
+}
