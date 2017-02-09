@@ -333,6 +333,10 @@ body{
         li{
             list-style: none;
         }
+
+        ul{
+            margin:0;
+        }
     }
 
 h1{
