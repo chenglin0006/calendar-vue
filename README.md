@@ -26,3 +26,6 @@ hotdayslist：非必选，热门档期，字符串数组
 maxscheduledatenumber：非必选，日历显示的天数（默认是365*2天）
 maxdays：非必选，允许时间跨度的天数（默认是30天）
 pagetitle：非必选，页面title（默认是“”）
+
+
+访问链接：https://chenglin0006.github.io/calendar-vue/test/dist/index.html
