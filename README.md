@@ -29,3 +29,10 @@ pagetitle：非必选，页面title（默认是“”）
 
 
 访问链接：https://chenglin0006.github.io/calendar-vue/test/dist/index.html
+
+
+本地调试
+# cd calendar-vue
+# npm install
+# webpack --watch
+# npm start
