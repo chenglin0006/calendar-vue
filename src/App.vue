@@ -300,7 +300,10 @@
   @import url("./less/util.less");
 
   @bordercolor:#ebebeb;
-body{
+    html{
+       font-size: 62.5%;
+    }
+    body{
         margin:0 !important;
         padding:0;
         border:0;
@@ -324,19 +327,19 @@ h1{
     margin:0;
 }
     .v-calendar--title{
-        height:32px;
-        padding-top: 7px;
-        padding-bottom: 6px;
+        height:3.2rem;
+        padding-top: .7rem;
+        padding-bottom: .6rem;
         border-bottom:1px solid #d7d7d7;
-        font-size:16px;
-        box-shadow: 0px 2px 1px rgba(204, 202, 200, 0.2);
+        font-size:1.6rem;
+        box-shadow: 0 .2rem .1rem rgba(204, 202, 200, 0.2);
         position:relative;
         background:#fff;
         z-index:1;
     }
     .v-calendar--header{
-        height:25px;
-        line-height:25px;
+        height:2.5rem;
+        line-height:2.5rem;
         background:#ffffff;
         color:#333;position:
         relative;
@@ -352,7 +355,7 @@ h1{
         -webkit-box-flex:1;
         flex:1;
         text-align:center;
-        font-size: 12px;
+        font-size: 1.2rem;
         color: #777777;
     }
     .v-calendar--date{
@@ -366,15 +369,15 @@ h1{
         }
     }
     .v-calendar--date-month{
-        height:43px;
-        line-height:43px;
+        height:4.3rem;
+        line-height:4.3rem;
         text-align:center;
-        font-size: 15px;
+        font-size: 1.5rem;
         color: #333;
     }
     .v-calendar--date-day-group{
         // .borderline(#e1e1e1,bottom);
-        border-bottom: solid 1px @bordercolor;
+        border-bottom: solid .1rem @bordercolor;
         overflow:hidden;
         padding-left: 0;
         &:last-child{
@@ -382,13 +385,13 @@ h1{
         }
     }
     .v-calendar--date-day-wrapper{
-        height:53px;
+        height:5.3rem;
         width:14.285%;
         float:left;
         // .borderline(#e1e1e1,top);
         // .borderline(#e1e1e1,right);
-        border-top:1px solid @bordercolor;
-        border-right:1px solid @bordercolor;
+        border-top:.1rem solid @bordercolor;
+        border-right:.1rem solid @bordercolor;
         text-align:center;
         box-sizing: border-box;
         -webkit-tap-highlight-color: transparent;
@@ -406,11 +409,11 @@ h1{
             border-top-color: #f63;
             &.hot{
                 i{
-                    width: 7px;
-                    height: 9px;
+                    width: .7rem;
+                    height: .9rem;
                     position: absolute;
-                    top: 4px;
-                    left: 4px;
+                    top: .4rem;
+                    left: .4rem;
                     background: url('./img/hot_active.png') no-repeat top left;
                     background-size: contain;
                 }
@@ -424,11 +427,11 @@ h1{
         }
         &.hot{
             i{
-                width: 7px;
-                height: 9px;
+                width: .7rem;
+                height: .9rem;
                 position: absolute;
-                top: 4px;
-                left: 4px;
+                top: .4rem;
+                left: .4rem;
                 background: url('./img/hot_rest.png') no-repeat top left;
                 background-size: contain;
             }
@@ -436,12 +439,12 @@ h1{
     }
     .v-calendar--date-item{
         display:block;
-        height:25px;
-        line-height:40px;
-        font-size: 15px;
+        height:2.5rem;
+        line-height:4rem;
+        font-size: 1.5rem;
         &.tag{
-            line-height: 25px;
-            font-size: 10px;
+            line-height: 2.5rem;
+            font-size: 1rem;
         }
     }
 
@@ -457,24 +460,24 @@ h1{
         .choose-ok-div{
             position: fixed !important;
             bottom: 0;
-            left: 0px;
-            right: 0px;
+            left: 0;
+            right: 0;
             text-align: center;
             background-color: white;
-            line-height: 44px;
+            line-height: 4.4rem;
             .borderline(#e1e1e1,top);
             .choose-ok{
                 text-align: center;
                 background-color: #f63;
                 color: white;
-                border-radius: 5px;
-                line-height: 44px;
+                border-radius: .5rem;
+                line-height: 4.4rem;
                 display: inherit;
-                margin-left: 10px;
-                margin-right: 10px;
-                margin-bottom: 5px;
-                margin-top: 6px;
-                font-size: 18px;
+                margin-left: 1rem;
+                margin-right: 1rem;
+                margin-bottom: .5rem;
+                margin-top: .6rem;
+                font-size: 1.8rem;
             }
         }
         
@@ -487,10 +490,10 @@ h1{
         background: white;
         z-index: 10;
         position: relative;
-        padding-top: 12px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 8px;
+        padding-top: 1.2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: .8rem;
         background-color: white;
         z-index: 10001;
         .choose-way{
@@ -500,25 +503,25 @@ h1{
             -ms-box-flex: 1;
             -ms-flex: 1;
             width: 50%;
-            height: 42px;
-            border:solid 1px #cccccc;
-            border-radius: 5px;
+            height: 4.2rem;
+            border:solid .1rem #cccccc;
+            border-radius: .5rem;
             color:#111111;
             position: relative;
             &:last-child{
-                margin-left: 10px;
+                margin-left: 1rem;
             }
             &.active{
                 border:none;
                 background-color: #ffe1d7;
                 color:#f63;
-                height: 44px;
+                height: 4.4rem;
                 .way-date{
                         display: none;
                 }
                 i{
-                    width: 21px;
-                    height: 21px;
+                    width: 2.1rem;
+                    height: 2.1rem;
                     position: absolute;
                     top: 0;
                     left: 0;
@@ -527,19 +530,19 @@ h1{
                 }
                 &.active-text{
                     .way-title{
-                        font-size: 14px;
-                        margin-top: 5px;
+                        font-size: 1.4rem;
+                        margin-top: .5rem;
                     }
                     .way-date{
                         display: inherit;
-                        font-size: 10px;
+                        font-size: 1rem;
                     }
                 }
             }
             .way-title{
-                font-size: 16px;
-                margin-top: 11px;
-                line-height: 22px;
+                font-size: 1.6rem;
+                margin-top: 1.1rem;
+                line-height: 2.2rem;
             }
         }
     }
@@ -548,67 +551,30 @@ h1{
         display:inline-block;
         text-align:center;
         font-weight:400;
-        line-height:20px;
+        line-height:2rem;
         position:relative;
-        top:-7px;
-        font-size: 16px;
+        top:-.7rem;
+        font-size: 1.6rem;
         width: inherit;
         background-color: #f0f0f0;
-        padding-left: 11px;
-        padding-right: 8px;
-        border-radius: 4px;
-        padding-bottom: 5px;
-        padding-top: 5px;
+        padding-left: 1.1rem;
+        padding-right: .8rem;
+        border-radius: .4rem;
+        padding-bottom: .5rem;
+        padding-top: .5rem;
         color: #777;
         i{
-            width: 20px;
-            height: 21px;
+            width: 2rem;
+            height: 2.1rem;
             background: url('./img/calendar-title-icon.png') no-repeat top left;
             background-size: contain;
             display: inline-block;
             vertical-align: bottom;
         }
         span{
-            padding-left: 6px;
-            margin-left: 8px;
+            padding-left: .6rem;
+            margin-left: .8rem;
             .borderline(#d7d7d7,left);
         }
-    }
-
-    header{
-        position: relative;
-        height: 44px;
-        line-height: 44px;
-        text-align: center;
-        background-color: #FCFCFC;
-        box-shadow: 0 0 3px #CCC;
-        z-index: 100;
-        &.normal{
-            background-color: #fcfcfc;
-            z-index: 100002;
-        }
-        .btn-back {
-            position: absolute;
-            left: 0;
-            top: 0;
-            .size(44px; 44px);
-            &:after {
-              content: '';
-              position: absolute;
-              left: 16px;
-              top: 12px;
-              .size(11px; 20px);
-              background: url(./img/un_icon.png) -10px 0 no-repeat;
-              background-size: 41px auto;
-            }
-          }
-          h1{
-            padding: 0 88px;
-            font-size: 18px;
-            font-weight: normal;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
     }
 </style>
