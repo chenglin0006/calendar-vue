@@ -13,15 +13,17 @@
 	</script>
 </head>
 <body >
-	<app :showcalendar="showCalendar"
-		:hotdayslist="hotDaysList"
-		:maxscheduledatenumber="maxScheduleDateNumber"
-		:initcheckintext="checkInText"
-		:initcheckouttext="checkOutText"
-		:maxdays="maxDays"
-		:pagetitle="pageTitle"
-		@hidecalendar="hideCalendarFun"></app>
-	<button class="click-btn" :style="{'font-size':'15px','padding':'10px','border':'solid 1px black','margin':'20px'}" @click="showCalendarFun">弹出日历{{checkInText}}至{{checkOutText}}</button>
+	<div id="app">
+		<app
+			:hotdayslist="hotDaysList"
+			:maxscheduledatenumber="maxScheduleDateNumber"
+			:initcheckintext="checkInText"
+			:initcheckouttext="checkOutText"
+			:maxdays="maxDays"
+			:pagetitle="pageTitle"
+			:choose-date-way="chooseDateWay"
+			@hidecalendar="hideCalendarFun"></app>
+	</div>
 	<script src="./build.js"></script>
 </body>
 </html>

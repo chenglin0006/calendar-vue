@@ -1,39 +1,38 @@
 require('es6-promise').polyfill();
 import Vue from 'vue';
 import App from '../../src/App.vue';
-import VueRainbow from 'vue-rainbow';
 import './index.less';
 import formatter from 'date-formatter';
-Vue.use(VueRainbow);
 
 new Vue({
-	  el: 'body',
+	  el: '#app',
 	  components: {
 	    'app': App
 	  },
 	  data(){
 	  	return {
-	  		showCalendar:false,
 	  		checkInText:'2017-10-01',
 	  		checkOutText:'2017-10-30',
 	  		hotDaysList:['2017-10-01','2017-10-02'],
 	  		maxScheduleDateNumber:365,
 	  		maxDays:45,
-	  		pageTitle:"test"
+	  		pageTitle:"test",
+	  		chooseDateWay:''
 	  	}
 	  },
+	  mounted(){
+	  	this.chooseDateWay = this.getQueryString('chooseDateWay');
+	  	console.log(this.chooseDateWay);
+	  },
 	  methods:{
-	  	showCalendarFun:function(){
-	  		this.showCalendar = true;
-	  	},
 	  	hideCalendarFun:function(checkInDate,checkOutDate){
-	  		if(checkInDate){
-	  			this.checkInText = formatter(checkInDate,'YYYY-MM-DD');
-	  		}	
-	  		if(checkOutDate){
-	  			this.checkOutText = formatter(checkOutDate,'YYYY-MM-DD');
-	  		}
-	  		this.showCalendar = false;
-	  	}
+	  		alert(checkInDate);
+	  		alert(checkOutDate);
+	  	},
+		getQueryString:function(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) return unescape(r[2]); return null;
+		}
 	  }
 })

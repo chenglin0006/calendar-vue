@@ -1,12 +1,7 @@
 
 <template>
-    <div v-show="showCalendar" class="v-calendar" transition="v-calendar">
-        <header class="normal m-header" v-show="showMHeader">
-            <a href="javascript:void(0);" class="btn-back js_back" @click="hideCalendar"></a>
-            <h1>选择查找日期</h1>
-            <a href="javascript:void(0);" class="js_del"></a>
-        </header>
-        <div class="choos-date-way">
+    <div class="v-calendar" transition="v-calendar">
+        <div class="choos-date-way" v-if="chooseDateWay=='oneAndMore'">
             <div class="many-way choose-way" :class="{
                 'active':(activeChooseDateWay=='many'),
                 'active-text':showManyActiveText
@@ -64,13 +59,6 @@
     import formatter from 'date-formatter';
     import calendarObj from './calendar.js';
     import $ from 'jquery';
-    import Request from 'superagent';
-    import Jsonp from 'superagent-jsonp';
-    import fetchJsonp from 'fetch-jsonp';
-
-    var UAStr = (navigator.userAgent).toLowerCase(),
-    isIOS = /(iphone|ipad)/.test(UAStr),
-    isAndroid = /android/.test(UAStr);
     var mDomain = document.domain.indexOf("dianping")==-1? '//m.51ping.com':'//m.dianping.com';
 
     export default {
@@ -82,8 +70,6 @@
                 checkOutDate:null,  //当前checkOutDate
                 finalCheckInDate:null,      //最终checkInDate
                 finalCheckOutDate:null,     //最终checkOutDate
-                calendarShow:true,
-                showCalendarHeader:false,
                 activeChooseDateWay:calendarObj.CHOOSEMANYDAY,
                 finalChooseDateWay:calendarObj.CHOOSEMANYDAY,
                 showManyActiveText:false,
@@ -95,14 +81,14 @@
 
         props:['initcheckintext',
                 'initcheckouttext',
-                'showcalendar',
                 'hotdayslist',
                 'maxscheduledatenumber',
                 'maxdays',
-                'pagetitle'
+                'pagetitle',
+                'chooseDateWay'
         ],
 
-        ready:function(){
+        mounted(){
             this.checkInDate = this.initcheckintext?new Date(this.initcheckintext):new Date('2017-10-01');
             this.checkOutDate = this.initcheckouttext?new Date(this.initcheckouttext):new Date('2017-10-30');
             this.finalCheckInDate = this.checkInDate;
@@ -112,9 +98,6 @@
             self.$watch('hotdayslist',function(){
                 self.hotDaysList = self.hotdayslist;
                 self.initCalendarIndex();
-            });
-            self.$watch('showcalendar',function(){
-                self.showCalendar = self.showcalendar?self.showcalendar:false;
             });
             self.$watch('maxScheduleDateNumber',function(){
                 self.maxScheduleDateNumber = self.maxScheduleDateNumber;
@@ -129,29 +112,6 @@
                 self.checkOutDate = self.initcheckouttext?new Date(self.initcheckouttext):new Date('2017-10-30');
                 self.finalCheckOutDate = self.checkOutDate;
                 self.resetCalendarIndex();
-            });
-            self.$watch('showCalendar',function(){
-                //点击返回时将当前起始日期置为上次点击完成时的起始日期
-                if(!self.showCalendar){
-                    self.checkInDate = self.finalCheckInDate;
-                    self.checkOutDate = self.finalCheckOutDate;
-                    if(self.checkInDate.getTime()!=self.checkOutDate.getTime()){
-                        self.activeChooseDateWay = calendarObj.CHOOSEMANYDAY;
-                    } else {
-                        self.activeChooseDateWay = calendarObj.CHOOSEONEDAY;
-                    }
-                    if(self.activeChooseDateWay==calendarObj.CHOOSEMANYDAY){
-                        self.showManyActiveText = true;
-                        self.showOneActiveText = false;
-                    } else {
-                        self.showManyActiveText = false;
-                        self.showOneActiveText = true;
-                    }
-                } else {
-                    self.$nextTick(function(){
-                        calendarObj.toActiveDayIndex(140);
-                    });
-                }
             });
         },
 
@@ -179,8 +139,34 @@
                     this.showManyActiveText = false;
                 }
             },
+            clickDate:function(item){
+                if(this.chooseDateWay=='oneAndMore'){
+                    this.clickDateOneAndMore(item);
+                } else {
+                    this.clickDateNormal(item);
+                }
+            },
+            clickDateNormal:function(item){
+                if (item.type === 0) return;
+                var date = item.date;
+                if(this.checkInDate&& !this.checkOutDate && date.getTime() == this.checkInDate.getTime()){
+                        //重复点击则置空
+                        this.checkInDate = null;
+                } else {
+                    if (this.checkOutDate) {
+                        this.checkInDate = date;
+                        this.checkOutDate = null;
+                    } else {
+                        if (this.checkInDate&&date.getTime() > this.checkInDate.getTime()) {
+                            this.checkOutDate = date;
+                        } else {
+                            this.checkInDate = date;
+                        }
+                    }
+                }
+            },
             //日历点击事件
-            clickDate: function(item) {
+            clickDateOneAndMore: function(item) {
                 if (item.type === 0) return;
                 var date = item.date;
                 if(this.activeChooseDateWay == calendarObj.CHOOSEMANYDAY){
@@ -232,8 +218,6 @@
             //点击日期头部的返回事件
             hideCalendar: function() {
                 //点击返回时将当前起始日期置为上次点击完成时的起始日期
-                this.showCalendar =false;
-                this.$emit('hidecalendar',null,null);
             },
             //点击完成
             chooseDateOk:function(){
@@ -257,7 +241,7 @@
                 this.finalCheckInDate = this.checkInDate;
                 this.finalCheckOutDate = this.checkOutDate?this.checkOutDate:this.checkInDate;
                 this.finalChooseDateWay = this.activeChooseDateWay;
-                this.$emit('hidecalendar',this.finalCheckInDate,this.finalCheckOutDate);
+                this.$emit('hidecalendar',this.checkInDate,this.checkOutDate);
             },
             //切换查询日期方式（多日或者单日）
             changeChooseWay: function(e){
@@ -301,9 +285,6 @@
                 //m站显示头部
                 return true;
             },
-            showCalendar: function(){
-                return this.showcalendar?this.showcalendar:false;
-            },
             maxDays: function(){
                 return this.maxdays?this.maxdays:30;
             },
@@ -314,13 +295,13 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import url("./less/border.less");
   @import url("./less/util.less");
 
   @bordercolor:#ebebeb;
 body{
-        margin:0;
+        margin:0 !important;
         padding:0;
         border:0;
         outline:0;
@@ -342,15 +323,6 @@ body{
 h1{
     margin:0;
 }
-    .v-calendar{
-        position:fixed;
-        top:0px;
-        left:0;
-        width:100%;
-        height:100%;
-        background:#fff;
-        z-index:10000;
-    }
     .v-calendar--title{
         height:32px;
         padding-top: 7px;
@@ -362,51 +334,6 @@ h1{
         background:#fff;
         z-index:1;
     }
-    .v-calendar--title-back{
-        display:block;
-        width:35px;
-        position:relative;
-        position:absolute;
-        left:15px;
-        height:100%;
-        top:0;
-        z-index:10;
-        &:after{
-            content:"";
-            display:block;
-            position:absolute;
-            left:0;
-            top:50%;
-            background-size:8px 14px;
-            -webkit-transform:translateY(-50%) rotate(135deg);
-            transform:translateY(-50%) rotate(135deg);
-            width:8px;
-            height:8px;
-            border:none;
-            border-bottom:2px solid #f63;
-            border-right:2px solid #f63;
-        }
-    }
-    .v-calendar--title-btn{
-        position:absolute;
-        right:15px;
-        color:#f63;
-        display:block;
-        text-align:right;
-        height:100%;
-        top:0;
-    }
-    .v-calendar--title-content{
-        display:block;
-        text-align:center;
-        font-weight:400;
-        line-height:20px;
-        width:100%;
-        position:absolute;
-        left:0;
-        top:15px;
-        font-size: 14px;
-    }
     .v-calendar--header{
         height:25px;
         line-height:25px;
@@ -415,7 +342,6 @@ h1{
         relative;
         z-index:10;
         .borderline(#e1e1e1,bottom);
-        margin-top: -18px;
     }
     .v-calendar--header-wrapper{
         display:-webkit-box;
@@ -430,12 +356,6 @@ h1{
         color: #777777;
     }
     .v-calendar--date{
-        position:absolute;
-        height:100%;
-        width:100%;
-        left:0;
-        top:0;
-        padding-top:135px;
         overflow-y:scroll;
         -webkit-overflow-scrolling:touch;
         &.no-scroll{
@@ -691,56 +611,4 @@ h1{
             text-overflow: ellipsis;
           }
     }
-    .v-calendar--date-wrapper:last-child{
-        padding-bottom: 180px;
-    }
-
-    body.ios{
-        header.m-header{
-            padding-top: 20px;
-            .btn-back{
-                top: 20px;
-            }
-        }
-        .v-calendar--date{
-            padding-top: 90px;
-        }
-        .v-calendar--date-wrapper:last-child{
-            padding-bottom: 130px;
-        }
-        &.tool-index{
-            .v-calendar--date{
-                padding-top: 90px;
-            }
-            .v-calendar--date-wrapper:last-child{
-                padding-bottom: 130px;
-            }
-        }
-        &.result-index{
-            .v-calendar--date{
-                padding-top: 155px;
-            }
-            .v-calendar--date-wrapper:last-child{
-                padding-bottom: 200px;
-            }
-        }
-    }
-
-    body.android{
-        .v-calendar--date{
-            padding-top: 90px;
-        }
-        .v-calendar--date-wrapper:last-child{
-            padding-bottom: 135px;
-        }
-        &.tool-index{
-            .v-calendar--date{
-                padding-top: 90px;
-            }
-            .v-calendar--date-wrapper:last-child{
-                padding-bottom: 135px;
-            }
-        }
-    }
-
 </style>

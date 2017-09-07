@@ -23,10 +23,11 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue'
       },
+      { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
       {
         test: /\.js$/,
         loader: 'babel',
-        exclude: /node_modules/
+        exclude: /node_modules\/(?!@gfe)/
       },
       {
         test: /\.json$/,
@@ -37,20 +38,31 @@ module.exports = {
         loader: 'vue-html'
       },
       {
+        test: /\.(eot|woff|woff2|ttf|svg|ttc|TTF)([\?]?.*)$/,
+        loader: "file"
+      },
+      {
+          test: /\.woff|ttf|woff2|eot$/,
+          loader: 'url-loader?limit=1000&name=font-[hash:6].[ext]'
+      },
+      {
           test: /\.less$/,
-          loader: "style!css!postcss!less"
+          loader: env == "alpha" ? "style!css!postcss!less" : ExtractTextPlugin.extract('css!postcss!less')
       },
       {
           test: /\.css$/,
-          loader: "style!css!postcss!less"
+          loader: env == "alpha" ? "style!css!postcss!less" : ExtractTextPlugin.extract('css!postcss!less')
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loaders: [
-          'url?limit=1000'
-        ]
+        loaders: ["url?limit=1000"]
       }
     ]
+  },
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.common.js'
+    }
   },
   plugins: [
     new WebpackShellPlugin({onBuildStart: ['gulp']}),
@@ -63,6 +75,7 @@ module.exports = {
     noInfo: true,
     hot: true,
     contentBase: f2eci.output,
+    disableHostCheck: true,
     publicPath: '/',
     stats:{
       colors: true
