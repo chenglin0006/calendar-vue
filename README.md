@@ -25,7 +25,7 @@ initcheckouttext：非必选，初始化结束时间（默认是2017-10-30）
 hotdayslist：非必选，热门档期，字符串数组
 maxscheduledatenumber：非必选，日历显示的天数（默认是365*2天）
 maxdays：非必选，允许时间跨度的天数（默认是30天
-chooseDateWay:选择日期的方式，oneAndMore:支持单选和多选切换的方式 ,没有赋值则是正常的选择日期的方式
+chooseDateWay:选择日期的方式，oneAndMore:支持单选和多选切换的方式 ,week:选择一个星期,没有赋值则是正常的选择日期的方式
 
 访问链接：https://chenglin0006.github.io/calendar-vue/test/dist/index.html
 

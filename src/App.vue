@@ -94,24 +94,23 @@
             this.finalCheckInDate = this.checkInDate;
             this.finalCheckOutDate = this.checkOutDate;
             this.initCalendarIndex();
-            var self = this;
-            self.$watch('hotdayslist',function(){
-                self.hotDaysList = self.hotdayslist;
-                self.initCalendarIndex();
+            this.$watch('hotdayslist',()=>{
+                this.hotDaysList = this.hotdayslist;
+                this.initCalendarIndex();
             });
-            self.$watch('maxScheduleDateNumber',function(){
-                self.maxScheduleDateNumber = self.maxScheduleDateNumber;
-                self.initCalendarIndex();
+            this.$watch('maxScheduleDateNumber',()=>{
+                this.maxScheduleDateNumber = this.maxScheduleDateNumber;
+                this.initCalendarIndex();
             });
-            self.$watch('initcheckintext',function(){
-                self.checkInDate = this.initcheckintext?new Date(self.initcheckintext):new Date('2017-10-01');
-                self.finalCheckInDate = self.checkInDate;
-                self.resetCalendarIndex();
+            this.$watch('initcheckintext',()=>{
+                this.checkInDate = this.initcheckintext?new Date(this.initcheckintext):new Date('2017-10-01');
+                this.finalCheckInDate = this.checkInDate;
+                this.resetCalendarIndex();
             });
-            self.$watch('initcheckouttext',function(){
-                self.checkOutDate = self.initcheckouttext?new Date(self.initcheckouttext):new Date('2017-10-30');
-                self.finalCheckOutDate = self.checkOutDate;
-                self.resetCalendarIndex();
+            this.$watch('initcheckouttext',()=>{
+                this.checkOutDate = this.initcheckouttext?new Date(this.initcheckouttext):new Date('2017-10-30');
+                this.finalCheckOutDate = this.checkOutDate;
+                this.resetCalendarIndex();
             });
         },
 
@@ -142,9 +141,19 @@
             clickDate:function(item){
                 if(this.chooseDateWay=='oneAndMore'){
                     this.clickDateOneAndMore(item);
+                } else if(this.chooseDateWay=='week'){
+                    this.clickDateWeek(item);
                 } else {
                     this.clickDateNormal(item);
                 }
+            },
+            clickDateWeek:function(item){
+                if (item.type === 0) return;
+                var date = item.date;
+                let dateWeek = date.getDay()==0?7:date.getDay();
+                let weekFirstDay = calendarObj.addDay(date,-dateWeek+1);
+                this.checkInDate = weekFirstDay;
+                this.checkOutDate =  this.checkInDate?calendarObj.addDay(this.checkInDate,6):null;
             },
             clickDateNormal:function(item){
                 if (item.type === 0) return;
@@ -245,24 +254,23 @@
             },
             //切换查询日期方式（多日或者单日）
             changeChooseWay: function(e){
-                var self = this;
                 var jItem = $(e.currentTarget);
                 if(jItem.hasClass('many-way')){
-                    if(self.activeChooseDateWay == calendarObj.CHOOSEMANYDAY){
+                    if(this.activeChooseDateWay == calendarObj.CHOOSEMANYDAY){
                         return;
                     } else {
-                        self.activeChooseDateWay = calendarObj.CHOOSEMANYDAY;
+                        this.activeChooseDateWay = calendarObj.CHOOSEMANYDAY;
                     }
                 } else {
-                    if(self.activeChooseDateWay == calendarObj.CHOOSEONEDAY){
+                    if(this.activeChooseDateWay == calendarObj.CHOOSEONEDAY){
                         return;
                     } else {
-                        self.activeChooseDateWay = calendarObj.CHOOSEONEDAY;
+                        this.activeChooseDateWay = calendarObj.CHOOSEONEDAY;
                     }
                 }
                 //每次切换tab都将起始日期置空并隐藏各显示日期的样式
-                self.checkInDate = null;
-                self.checkOutDate = null;
+                this.checkInDate = null;
+                this.checkOutDate = null;
                 this.showManyActiveText = false;
                 this.showOneActiveText = false;
             }
@@ -349,6 +357,7 @@ h1{
     .v-calendar--header-wrapper{
         display:-webkit-box;
         display:flex;
+        padding-left: 0;
     }
     .v-calendar--header-item{
         display:block;
